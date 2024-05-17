@@ -71,7 +71,9 @@ func beginSendingFromQueue() { // used to send facts from the factsQueue sequent
     }
 
     status := sendFactFromQueue(factsQueue[0], factsAuthHeaderQueue[0]) // try sending the first fact from the factsQueue
-    if(((status >= 200) && (status < 300)) || (status == 500)) {
+    if(((status >= 200) && (status < 300)) || (status == 500)) { 
+      /* ### CONDITION (status == 500) IS PRESENT ABOVE ONLY DUE TO ME GETTING HTTP CODE 500 RESPONSES TO SUCCESSFUL POST REQUESTS. 
+      IT SHALL BE REMOVED UPON FIGURING OUT THE REASON FOR SUCH BEHAVIOR ### */
       factsQueue = factsQueue[1:] // if suceeded, remove the sent fact from the factsQueue
       factsAuthHeaderQueue = factsAuthHeaderQueue[1:] // if suceeded, remove the sent fact's auth header from the factsAuthHeaderQueue
       errorsCount = 0

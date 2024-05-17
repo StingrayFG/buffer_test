@@ -1,0 +1,8 @@
+services:
+  buffer_test:
+    image: buffer_test
+    container_name: buffer_test
+    restart: always
+    ports:
+      - 5500:5500
+

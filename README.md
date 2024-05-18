@@ -1,5 +1,5 @@
 # Starting the app
-First, cd to the directory to clone the repo into
+First, cd into desired working directory
 
 ```cd /directory/for/app```
 
@@ -12,11 +12,11 @@ And cd into it
 ```cd buffer_test```
 
 ## Development environment
-In order to start the app in the development environment, create a .env file or copy the .env.example file with
+In order to start the app in the development environment, create your own .env file or copy the .env.example file with
 
 ```cp .env.example .env```
 
-After that download dependencies
+After that download required packages
 
 ```go mod download```
 

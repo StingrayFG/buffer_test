@@ -2,7 +2,7 @@ package main
 
 import (
   "os"
-  //"fmt"
+  "fmt"
   "time"
   "log"
 
@@ -26,11 +26,11 @@ var isSending bool = false // shows whether facts are being sent to the destinat
 
 
 func addFactToQueue(w http.ResponseWriter, r *http.Request) { // used to save the formdata sent by client into the factsQueue
-  //fmt.Println(r.Form.Encode())
   err := r.ParseForm()
   if err != nil {
     log.Fatalln(err)
   }
+  fmt.Println("add " + r.Form.Encode())
 
   factsQueue = append(factsQueue, r.Form.Encode()) // parse the formdata into string
   factsAuthHeaderQueue = append(factsAuthHeaderQueue, r.Header.Get("Authorization"))
@@ -38,7 +38,7 @@ func addFactToQueue(w http.ResponseWriter, r *http.Request) { // used to save th
 
 
 func sendFactFromQueue(fact string, authHeader string) int { // used to send the first fact from the factsQueue to the destination
-  //fmt.Println(fact)
+  fmt.Println("sent " + fact)
   client := &http.Client{}
   
   req, err := http.NewRequest("POST", goBufferDestinationUrl, strings.NewReader(fact)) // assemble post request
@@ -71,6 +71,7 @@ func beginSendingFromQueue() { // used to send facts from the factsQueue sequent
     }
 
     status := sendFactFromQueue(factsQueue[0], factsAuthHeaderQueue[0]) // try sending the first fact from the factsQueue
+    fmt.Println("response " + strconv.Itoa(status))
     if(((status >= 200) && (status < 300)) || (status == 500)) { 
       /* ### CONDITION (status == 500) IS PRESENT ABOVE ONLY DUE TO THE EXAMPLE SERVER SENDING HTTP CODE 500 RESPONSES TO SUCCESSFUL POST REQUESTS. 
       IT SHALL BE REMOVED UPON FIGURING OUT THE REASON FOR SUCH BEHAVIOR ### */
@@ -81,6 +82,8 @@ func beginSendingFromQueue() { // used to send facts from the factsQueue sequent
       errorsCount += 1
     }
   }
+
+  isSending = false // set it to false as the sign of queue being empty
 }
 
 
